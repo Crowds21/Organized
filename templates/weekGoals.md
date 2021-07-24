@@ -23,13 +23,19 @@
 .action{$days := list "星期六" "星期五" "星期四" "星期三" "星期二" "星期一" "星期天"}
 
 
-
-.action{/*func*/}
 .action{/*循环生成星期列表*/}
 .action{/*生成周一日期所需要修正的时长*/}
 .action{$monday:= mul 24 $ng_week}
 
+{{{col
 .action{range $index,$day:=$days}
+
+.action{/*布局*/}
+.action{$setColum:= mod (add $index 1) 4 }
+.action{if eq $setColum 1}
+{{{
+.action{end}
+
 
 .action{/*迭代 每次增加24*/}
 .action{$after := mul 24 $index}
@@ -43,10 +49,20 @@
 ###### .action{$days_list}  .action{last (slice (list "星期一" "星期二" "星期三" "星期四" "星期五" "星期六" "星期日") 0 (add 1 $index ) )}
 
 {{select * from blocks where name=".action{$days_list}" and content="Schedule" }}
+
+
+.action{/*布局*/}
+.action{$setColum:= mod (add $index 1) 4 }
+.action{if eq $setColum 0}
+}}}
+.action{else if eq $index 6}
+}}}
+.action{end}
+
 .action{$index := add  $index 1}
 .action{end}
 
-
+}}}
 
 ## Weekly Summary
 {{SELECT * from blocks where type='h' and  content = 'Summary' and alias='.action{$weekResult}' }}
