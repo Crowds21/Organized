@@ -1,4 +1,4 @@
-.action{$ng_duration := (toDate "2006-01-02" "2021-01-01").Sub now}
+.action{$ng_duration := (toDate "2006-01-02" "2020-12-28").Sub now}
 .action{$weekhours:=mul 7 24}
 .action{$duration:=sub 0 $ng_duration.Hours }
 .action{$week := div $duration $weekhours}
