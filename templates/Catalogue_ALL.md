@@ -11,14 +11,14 @@
 
 .action{/*获取文件的目录路径*/}
 	.action{range $index,$v:=$block}
-		.action{$filePath = $v.Path}
+		.action{$filePath = $v.HPath}
 		.action{$fileBox =  $v.Box}
 	.action{end}
 	.action{/*通过正则表达式获取该文件所在的文件夹*/}
 	.action{$dirPath =(regexFind  $regexDirPath  $filePath )}
 	
 .action{/*获取目录包括子目录下所有的文件*/}
-	.action{$block := (queryBlocks "select * from blocks where path like'?%' and type='d' and box='?' order by length(path) limit 1000"  $dirPath $fileBox)}
+	.action{$block := (queryBlocks "select * from blocks where hpath like'?%' and type='d' and box='?' order by length(hpath) limit 1000"  $dirPath $fileBox)}
 	
 
 	
@@ -26,7 +26,7 @@
 .action{$filePathList:= list $dirPath}
 .action{range $index, $v:=$block}
 	
-	.action{$filePath = (regexFind  $regexDirPath  $v.Path )}
+	.action{$filePath = (regexFind  $regexDirPath  $v.HPath )}
 	
 	.action{if not (has  $filePath $filePathList)}
 		.action{$filePathList = append  $filePathList $filePath}
@@ -39,7 +39,7 @@
 ###### .action{$listItem}
 	.action{range $v:=$block}
 	
-	.action{$filePath = (regexFind  $regexDirPath  $v.Path )}
+	.action{$filePath = (regexFind  $regexDirPath  $v.HPath )}
 	
 	.action{if eq $listItem $filePath }
 - ((.action{$v.ID}))

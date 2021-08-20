@@ -20,7 +20,7 @@
 .action{/*大致估算编辑的字数*/}
 	.action{$yesterday := now | date_modify "-24h" | date "20060102150405"}
 	.action{$words:=0}
-	.action{$words_block := (queryBlocks "SELECT * FROM blocks WHERE box != '?' and box !='思源笔记用户指南' and  ( updated >'?' or created >'?') order by path limit -1" $notebox $yesterday  $yesterday  )}
+	.action{$words_block := (queryBlocks "SELECT * FROM blocks WHERE ( updated >'?' or created >'?') order by path limit -1" $notebox $yesterday  $yesterday  )}
 	.action{range $v:= $words_block}
 		.action{$words =add $words (len $v.Content) }
 	.action{end}
@@ -29,7 +29,11 @@
 
 ## Summary-Yesterday
 .action{$yesterday:=(now | date_modify "-24h") | date "2006-01-02"}
-{{select * from blocks where  box like 'DailySchedule'  and type='h' and  content = 'Summary' and path like '%.action{$yesterday}%'}}
+.action{$summary_blocks := (queryBlocks "select * from blocks where box like '?' and hpath like '%?%' and parent_id in ( select id from blocks  where box like '?'  and type='h' and content = 'Summary' and hpath like '%?%') order by created" $notebox $yesterday $notebox $yesterday )}
+	
+.action{range $v:= $summary_blocks}
+.action{$v.Markdown}
+.action{end}
 
 
 {{{col

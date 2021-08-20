@@ -1,7 +1,24 @@
+.action{/*获取文档的基本信息*/}
+.action{$docID:=.id}
+.action{$docTitle := .title}
+.action{$docBox :=" "}
+.action{$docPath := " "}
+.action{$docCreated := " "}
+.action{$docUpdated := " "}
+.action{$getDocInfo := (queryBlocks "SELECT * FROM blocks WHERE id='?' and type='d' " $docID )}
+.action{range $v:= $getDocInfo}
+	.action{$docBox =$v.Box}
+	.action{$docPath = $v.Path}
+	.action{$docCreated = toDate "20060102150405" $v.Created | date "2006-01-02"}
+	.action{$docUpdated = $v.Updated}	
+.action{end}
+
+<iframe src="http://127.0.0.1:6806/widgets/little-things/?blockid="></iframe>
+
+
 .action{/*迭代器*/}
 .action{$months := list "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec"}
 .action{$temp := ""}
-
 
 .action{range $index ,$month:=$months}
 
